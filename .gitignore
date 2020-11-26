@@ -1,0 +1,3 @@
+__pycache__
+*.pyc
+flask-react/node_modules

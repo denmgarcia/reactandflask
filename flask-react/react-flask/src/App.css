@@ -1,0 +1,53 @@
+.App {
+  text-align: center;
+}
+
+.todo {
+  background-color: #f4f4f4;
+  height: 100vh;
+  
+
+}
+
+.todo-items {
+  background-color: #d8d8d8;
+  max-width: 60vw;
+  margin: auto;
+  margin-bottom: 20px;
+  height: 15vh;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+}
+
+.flex {
+  display: flex;
+}
+
+.div-nav {
+  height: 10vh;
+  background-color: #5f5e5e;
+  
+}
+
+.div-nav nav {
+  align-items: center;
+  
+  
+}
+
+.div-nav nav ul {
+  margin: 0px;
+  padding: 0px;
+
+}
+
+.div-nav nav ul li {
+  display: inline;
+  padding-right: 8px;
+}
+
+.div-nav nav ul li a {
+  color: #ffffff;
+}
