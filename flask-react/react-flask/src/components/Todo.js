@@ -1,14 +1,17 @@
-import React from 'react'
-import TodoItem from '../components/TodoItem'
+import React, { useContext } from 'react'
+import { MyAppProvider } from '../App'
+import TodoItems from './TodoItems'
 
-
-
-function Todo({ todos, deleteTodo }) {
+function Todo() {
+    const todos = useContext(MyAppProvider)
+    console.log(todos.getTodo)
     return (
+
         <div className="todo">
             { todos.map((todo) => {
-                return <TodoItem key={todo.uid} todos={todo} deleteTodo={deleteTodo} /> 
+                return <TodoItems key={ todo.uid } todo={todo} />
             })}
+            
         </div>
     )
 }

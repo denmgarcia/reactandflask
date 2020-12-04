@@ -1,10 +1,14 @@
 from flask.views import MethodView
-from accounts.models import Todo
+from accounts.models import Todo, User
 from flask import jsonify, request
-from accounts.models import db
+from accounts.models import db, app
 from sqlalchemy import desc
+from flask import session
+import bcrypt, jwt
+import datetime
+from sqlalchemy.sql import exists
 
-class Animal(MethodView):
+class Users(MethodView):
 
 	def get(self, todo_id=None):
 		if todo_id is None:
@@ -81,3 +85,53 @@ class Animal(MethodView):
 		return jsonify({'message': "Deleting {} is successful".format(todos.text)})
 
 
+class Authentication(MethodView):
+
+	def get(self):
+		login = request.get_json()
+
+		username = login["name"]
+		password = login["password"]
+
+		try:
+			user = User.query.filter_by(name=login["name"]).first()
+		except:
+			return jsonify({"message": "No username found!"})
+
+		if (username and password):
+			token = jwt.encode({
+				'name': user.name,
+				'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
+			}, app.config["SECRET_KEY"])
+
+
+			return jsonify({
+				"message": "Successfully authenticate",
+				"token": token.decode("UTF-8")
+				})
+
+		else:
+			return jsonify({"message": "Please provide username or password"})
+
+	def post(self):
+
+		salt = bcrypt.gensalt()
+
+		user = request.get_json()
+		hashed = user['password']
+
+		hashed = hashed.encode("UTF-8")
+
+		create_user = User(
+			public_id=user['public_id'],
+			name=user['name'],
+			password=bcrypt.hashpw(hashed, salt),
+			admin=True,
+		)
+
+		db.session.add(create_user)
+		db.session.commit()
+		
+		return jsonify({
+			"messsage": "Successfully added User!",
+		})

@@ -1,3 +1,6 @@
 __pycache__
 *.pyc
 flask-react/node_modules
+accounts/__pycache__
+.gitignore
+.env
